@@ -32,30 +32,3 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.1'
 }
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'MATJsBridge'
-
-    publishedGroupId = "cn.meiauto.library"
-    libraryName = 'MATJsBridge'
-    artifact = 'matjsbridge'
-
-    libraryDescription = 'Android Utils'
-
-    siteUrl = 'https://github.com/liyang77723/MATJsBridge'
-    gitUrl = 'https://github.com/liyang77723/MATJsBridge.git'
-
-    libraryVersion = '0.0.1'
-
-    developerId = 'liyang'
-    developName = 'LiYang'
-    developEmail = 'liyang77723@qq.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-apply from: 'install.gradle'
-apply from: 'bintray.gradle'
