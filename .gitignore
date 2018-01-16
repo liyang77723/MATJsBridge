@@ -1,0 +1,35 @@
+.gradle
+.idea/
+app/release/
+
+# Local configuration file (sdk path, etc)
+local.properties
+.DS_Store
+build/
+
+# Android Studio captures folder
+captures/
+/captures
+
+# Intellij
+*.iml
+
+.externalNativeBuild
+
+# Generated files
+bin/
+gen/
+out/
+
+# Log Files
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+google-services.json
+
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
