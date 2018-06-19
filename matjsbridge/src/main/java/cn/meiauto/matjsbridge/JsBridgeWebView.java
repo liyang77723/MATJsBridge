@@ -22,19 +22,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityManager;
-import android.webkit.DownloadListener;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebStorage;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
+import com.tencent.smtt.export.external.interfaces.JsPromptResult;
+import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.sdk.DownloadListener;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebStorage;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -473,7 +474,7 @@ public class JsBridgeWebView extends WebView {
         }
 
         @Override
-        public void onShowCustomView(View view, CustomViewCallback callback) {
+        public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
             if (myCallback != null) {
                 myCallback.onCustomViewHidden();
                 myCallback = null;
@@ -493,7 +494,7 @@ public class JsBridgeWebView extends WebView {
         }
 
         private View myView = null;
-        private CustomViewCallback myCallback = null;
+        private IX5WebChromeClient.CustomViewCallback myCallback = null;
 
 
         @Override
@@ -534,14 +535,13 @@ public class JsBridgeWebView extends WebView {
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
     @Override
     public void addJavascriptInterface(Object object, String name) {
-        addMyJavascriptInterface(object, name);//TODO test use
+//        addMyJavascriptInterface(object, name);//TODO test use
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            super.addJavascriptInterface(object, name);
-//        } else {
-//            addMyJavascriptInterface(object, name);
-//        }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            super.addJavascriptInterface(object, name);
+        } else {
+            addMyJavascriptInterface(object, name);
+        }
     }
 
     private static final String PROMPT_FLAG = "js-bridge";
