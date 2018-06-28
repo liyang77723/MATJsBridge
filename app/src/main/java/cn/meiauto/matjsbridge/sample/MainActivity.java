@@ -2,6 +2,7 @@ package cn.meiauto.matjsbridge.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import cn.meiauto.matjsbridge.JsBridgeWebView;
@@ -19,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
         mWebView = JsBridgeWebView.create(this);
         mRootView.addView(mWebView);
+
+        mWebView.setProgressListener(new JsBridgeWebView.OnProgressListener() {
+            @Override
+            public void onProgress(int progress) {
+                Log.d("js_bridge", "onProgress() called with: progress = [" + progress + "]");
+            }
+        });
 
         mWebView.loadUrl("http://gank.io/");
     }

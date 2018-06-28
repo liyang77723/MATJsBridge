@@ -285,6 +285,9 @@ public class JsBridgeWebView extends WebView {
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            if (progressListener != null) {
+                progressListener.onProgress(100);
+            }
             Log.d(TAG, "onPageFinished  mInjectJs\n" + mInjectJs);
             loadUrl(mInjectJs);
         }
@@ -295,6 +298,14 @@ public class JsBridgeWebView extends WebView {
 
         public MyWebChromeClient(Context context) {
             mContextRef = new WeakReference<>(context);
+        }
+
+        @Override
+        public void onProgressChanged(WebView view, int i) {
+            super.onProgressChanged(view, i);
+            if (progressListener != null) {
+                progressListener.onProgress(i);
+            }
         }
 
         //android 3.0 ↓
@@ -782,5 +793,16 @@ public class JsBridgeWebView extends WebView {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public interface OnProgressListener {
+        void onProgress(int progress);
+    }
+
+    private OnProgressListener progressListener;
+
+
+    public void setProgressListener(OnProgressListener progressListener) {
+        this.progressListener = progressListener;
     }
 }
