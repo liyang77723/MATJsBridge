@@ -29,6 +29,9 @@ import com.google.gson.Gson;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.SslError;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
@@ -267,11 +270,10 @@ public class JsBridgeWebView extends WebView {
     }
 
     //TODO 域名过滤
-    //TODO 进度条
     //TODO title
     //TODO video
-    private class MyWebViewClient extends WebViewClient {
-        private final WeakReference<Context> mContextRef;
+    public class MyWebViewClient extends WebViewClient {
+        protected final WeakReference<Context> mContextRef;
 
         public MyWebViewClient(Context context) {
             mContextRef = new WeakReference<>(context);
@@ -291,10 +293,25 @@ public class JsBridgeWebView extends WebView {
             Log.d(TAG, "onPageFinished  mInjectJs\n" + mInjectJs);
             loadUrl(mInjectJs);
         }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.loadUrl(request.getUrl().toString());
+            } else {
+                view.loadUrl(request.toString());
+            }
+            return true;
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed();
+        }
     }
 
-    private class MyWebChromeClient extends WebChromeClient {
-        private final WeakReference<Context> mContextRef;
+    public class MyWebChromeClient extends WebChromeClient {
+        protected final WeakReference<Context> mContextRef;
 
         public MyWebChromeClient(Context context) {
             mContextRef = new WeakReference<>(context);
