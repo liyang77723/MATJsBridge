@@ -192,8 +192,8 @@ public class JsBridgeWebView extends WebView {
             }
         });
 
-        setWebViewClient(new MyWebViewClient(getContext()));
         setWebChromeClient(new MyWebChromeClient(getContext()));
+        setWebViewClient(new MyWebViewClient(getContext()));
 
         setOnLongClickListener(new OnLongClickListener() {
             @Override
